@@ -19,6 +19,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'org.postgresql:postgresql'
+	compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.5.Final'
 	compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

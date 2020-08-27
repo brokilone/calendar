@@ -1,29 +1,19 @@
 package brokilone.todo.dto;
 
-import brokilone.todo.security.PasswordMatches;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 
 /**
  * UserDto
  * created by Ksenya_Ushakova at 26.08.2020
  */
-@PasswordMatches
+
 public class UserDto {
-    @NotNull
-    @NotEmpty
+
     private String firstName;
-    @NotNull
-    @NotEmpty
+
     private String lastName;
-    @NotNull
-    @NotEmpty
+
     private String password;
-    private String matchingPassword;
-    @NotNull
-    @NotEmpty
+
     private String email;
 
     public String getFirstName() {
@@ -50,13 +40,6 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getMatchingPassword() {
-        return matchingPassword;
-    }
-
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
-    }
 
     public String getEmail() {
         return email;
@@ -72,7 +55,6 @@ public class UserDto {
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
-                ", matchingPassword='" + matchingPassword + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
