@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/todo_calend
+    username: postgres
+    password: postgres
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+     ddl-auto: update
