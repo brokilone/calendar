@@ -10,7 +10,90 @@
 <header>
 </header>
 <main>
-<h1>Home page</h1>
+    <div class="container">
+        <h2 class="text-muted">Привет, <span th:text="${user.firstName} + ' ' + ${user.lastName}"></span></h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Имя</th>
+                <td th:text="${user.firstName}"></td>
+            </tr>
+            <tr>
+                <th>Фамилия</th>
+                <td th:text="${user.lastName}"></td>
+            </tr>
+            <tr>
+                <th>E-mail</th>
+                <td th:text="${user.email}"></td>
+            </tr>
+        </table>
+
+        <div th:switch="${user.tasks}">
+            <h2 th:case="null">Пока вы не добавили ни одной задачи</h2>
+            <div th:case="*">
+                <h2>Задачи</h2>
+                <table class="table table-stripped">
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Описание</th>
+                        <th>Срок</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="task : ${user.tasks}">
+                        <td th:text="${task.shortDesc}"></td>
+                        <td th:text="${task.fullDesc}"></td>
+                        <td th:text="${task.execPeriod}"></td>
+                        <td>
+                            <button class="btn btn-success" id="update-data">Редактировать</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" id="delete-data">Удалить</button>
+                        </td>
+                        <br>
+<!--                        <form th:action="/home/saveChanges" method="post" th:object="${task}">-->
+<!--                            <label for="fullDesc">Описание</label>-->
+<!--                            <input type="text" th:field=*{fullDesc}" id="fullDesc"/>-->
+<!--                            <input type="submit" value="Сохранить">-->
+<!--                        </form>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <form action="/home/saveChanges" method="post" th:object="${user}">
+            <table class="table table-stripped">
+                <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Описание</th>
+                    <th>Срок</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task, itemStat : ${user.tasks}">
+                    <input hidden th:name="|tasks[${itemStat.index}].id|" th:value="${task.getId()}"/>
+                    <td> <input th:name="|tasks[${itemStat.index}].shortDesc|" th:value="${task.getShortDesc()}"/>
+                        </td>
+                    <td><input th:name="|tasks[${itemStat.index}].fullDesc|" th:value="${task.getFullDesc()}"/>
+                      </td>
+                    <td><input type="date" th:name="|$tasks[${itemStat.index}].execPeriod|" th:value="${task.getExecPeriod()}"/>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+                <input type="submit" id="submitButton" th:value="Сохранить">
+                <input type="reset" id="resetButton" name="reset" th:value="Сброс"/>
+            </form>
+        </div>
+    </div>
 </main>
 <footer>
 </footer>

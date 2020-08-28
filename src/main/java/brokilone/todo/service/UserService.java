@@ -42,4 +42,10 @@ public class UserService {
     public Optional<User> findUserByEmail(final String email) {
         return userRepo.findByEmail(email);
     }
+
+    public User setTasks(User user){
+       User byEmail = userRepo.findByEmail(user.getEmail()).orElseThrow(()->new RuntimeException("User not found"));
+       byEmail.setTasks(user.getTasks());
+       return userRepo.save(byEmail);
+    }
 }

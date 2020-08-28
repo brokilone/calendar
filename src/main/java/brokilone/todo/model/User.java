@@ -5,8 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * User
@@ -16,8 +18,8 @@ import java.util.Collections;
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
-    @Column(unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true, nullable = false, name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String email;
@@ -29,8 +31,10 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<Task> tasks = new ArrayList<>();
 
-    private boolean enabled;
+    private boolean enabled = true;
 
     public Long getId() {
         return id;
@@ -80,6 +84,14 @@ public class User implements UserDetails {
         this.enabled = enabled;
     }
 
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(Role.ROLE_USER);
@@ -98,6 +110,7 @@ public class User implements UserDetails {
     public void setUserName(String email) {
         this.email = email;
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -115,7 +128,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
     @Override

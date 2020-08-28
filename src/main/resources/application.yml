@@ -11,10 +11,10 @@ spring:
     hibernate:
      ddl-auto: update
 
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 418729143839-ld6lv70d60a1huq9r63pvp06mirr1b9t.apps.googleusercontent.com
-            client-secret: iOeSXT9tiNJnLTRrVGX2704v
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: 418729143839-ld6lv70d60a1huq9r63pvp06mirr1b9t.apps.googleusercontent.com
+#            client-secret: iOeSXT9tiNJnLTRrVGX2704v
