@@ -32,12 +32,13 @@ public class SecurityController {
 
 
     @PostMapping("/reg")
-    public String registerMewUser(@ModelAttribute("userForm")UserDto userDto, Model model) {
+    public String registerMewUser(@ModelAttribute("user")UserDto userDto, Model model) {
         try{
             userService.registerNewUserAccount(userDto);
             return "home";
         } catch (Exception e) {
             model.addAttribute("error", "Пользователь с таким e-mail уже существует");
+            model.addAttribute("user", userDto);
             return "reg";
         }
 

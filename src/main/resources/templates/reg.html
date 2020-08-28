@@ -15,7 +15,7 @@
 <main>
     <div class="container">
         <h1>Регистрация нового пользователя</h1>
-        <p th:text="${error}"></p>
+        <p class="text-danger" role="alert" th:text="${error}"></p>
         <form class="pass-header" action="/reg" th:object="${user}" method="POST" enctype="utf8">
             <div class="form-group">
                 <label for="firstName">Имя: </label>
@@ -36,9 +36,8 @@
             <div class="form-group">
                 <label for="matchPass">Подтвердите пароль: </label>
                 <input required class="form-control" id="matchPass" type="password"/>
-                <div id="error-pass">
-                    Пароли не совпадают!
-                </div>
+                <br>
+                <div class="alert alert-warning" role="alert" id="error-pass">Пароли не совпадают!</div>
             </div>
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="check">

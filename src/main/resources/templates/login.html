@@ -13,7 +13,7 @@
 <main>
     <div class="container">
         <h3>Введите данные учетной записи</h3>
-        <p th:text="${error}"></p>
+        <p class="text-danger" role="alert" th:text="${error}"></p>
         <form action="/login" method="post">
             <div class="form-group">
                 <label for="email"> Ваш email: </label>

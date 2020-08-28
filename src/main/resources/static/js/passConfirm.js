@@ -8,4 +8,8 @@ $(function () {
         }
     });
 
+    $('#pass').on('focus', function () {
+        $('p.text-danger').hide();
+    })
+
 })
