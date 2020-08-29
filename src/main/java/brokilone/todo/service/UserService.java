@@ -1,5 +1,6 @@
 package brokilone.todo.service;
 
+import brokilone.todo.dto.TaskListDto;
 import brokilone.todo.dto.UserDto;
 import brokilone.todo.model.Role;
 import brokilone.todo.model.User;
@@ -43,9 +44,10 @@ public class UserService {
         return userRepo.findByEmail(email);
     }
 
-    public User setTasks(User user){
-       User byEmail = userRepo.findByEmail(user.getEmail()).orElseThrow(()->new RuntimeException("User not found"));
-       byEmail.setTasks(user.getTasks());
+    public User setTasks(TaskListDto taskListDto, String email){
+
+       User byEmail = userRepo.findByEmail(email).orElseThrow(()->new RuntimeException("User not found"));
+       byEmail.setTasks(taskListDto.getTasks());
        return userRepo.save(byEmail);
     }
 }

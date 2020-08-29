@@ -1,5 +1,7 @@
 package brokilone.todo.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import java.time.LocalDate;
@@ -10,6 +12,7 @@ import java.time.LocalDate;
  */
 @Table
 @Entity
+@Component
 public class Task {
 
     @Id

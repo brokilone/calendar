@@ -1,5 +1,6 @@
 package brokilone.todo.controller;
 
+import brokilone.todo.dto.TaskListDto;
 import brokilone.todo.model.User;
 import brokilone.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,18 @@ public class UserController {
         User user = userService.findUserByEmail(currentPrincipalName).orElseThrow(() ->
                 new RuntimeException("Пользователь не найден"));
         model.addAttribute("user", user);
+        TaskListDto taskListDto = new TaskListDto();
+        taskListDto.setTasks(user.getTasks());
+        model.addAttribute("taskListDto", taskListDto);
         return "home";
     }
 
     @PostMapping(value = "/saveChanges")
-    public String saveChanges(Model model, @ModelAttribute User user) {
-        System.out.println(user.getEmail());
-        User withTasks = userService.setTasks(user);
+    public String saveChanges(Model model, @ModelAttribute("taskListDto") TaskListDto taskListDto, Authentication authentication) {
+        String email = authentication.getName();
+        User withTasks = userService.setTasks(taskListDto, email);
         model.addAttribute("user", withTasks);
+        model.addAttribute("taskListDto", taskListDto);
         return "home";
     }
 }

@@ -52,19 +52,13 @@
                         <td>
                             <button class="btn btn-danger" id="delete-data">Удалить</button>
                         </td>
-                        <br>
-<!--                        <form th:action="/home/saveChanges" method="post" th:object="${task}">-->
-<!--                            <label for="fullDesc">Описание</label>-->
-<!--                            <input type="text" th:field=*{fullDesc}" id="fullDesc"/>-->
-<!--                            <input type="submit" value="Сохранить">-->
-<!--                        </form>-->
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div>
-            <form action="/home/saveChanges" method="post" th:object="${user}">
+            <form th:action="@{/home/saveChanges}" method="post" th:object="${taskListDto}">
             <table class="table table-stripped">
                 <thead>
                 <tr>
@@ -75,16 +69,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="task, itemStat : ${user.tasks}">
-                    <input hidden th:name="|tasks[${itemStat.index}].id|" th:value="${task.getId()}"/>
-                    <td> <input th:name="|tasks[${itemStat.index}].shortDesc|" th:value="${task.getShortDesc()}"/>
+                <tr th:each="task, itemStat : *{tasks}">
+                    <input hidden th:field="*{tasks[__${itemStat.index}__].id}"/>
+                    <input hidden th:field="*{tasks[__${itemStat.index}__].author}"/>
+                    <td> <input th:field="*{tasks[__${itemStat.index}__].shortDesc}"/>
                         </td>
-                    <td><input th:name="|tasks[${itemStat.index}].fullDesc|" th:value="${task.getFullDesc()}"/>
+                    <td><input th:field="*{tasks[__${itemStat.index}__].shortDesc}"/>
                       </td>
-                    <td><input type="date" th:name="|$tasks[${itemStat.index}].execPeriod|" th:value="${task.getExecPeriod()}"/>
+                    <td><input type="date" th:field="*{tasks[__${itemStat.index}__].execPeriod}"/>
                     </td>
                     <td>
-
                     </td>
                 </tr>
                 </tbody>
