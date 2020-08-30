@@ -74,9 +74,10 @@
                     <input hidden th:field="*{tasks[__${itemStat.index}__].author}"/>
                     <td> <input th:field="*{tasks[__${itemStat.index}__].shortDesc}"/>
                         </td>
-                    <td><input th:field="*{tasks[__${itemStat.index}__].shortDesc}"/>
+                    <td><input th:field="*{tasks[__${itemStat.index}__].fullDesc}"/>
                       </td>
-                    <td><input type="date" th:field="*{tasks[__${itemStat.index}__].execPeriod}"/>
+                    <td><input type="date"
+                               th:field="*{tasks[__${itemStat.index}__].execPeriod}"/>
                     </td>
                     <td>
                     </td>

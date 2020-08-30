@@ -1,5 +1,6 @@
 package brokilone.todo.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Task {
     @Column(length = 1000)
     private String fullDesc;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future
     private LocalDate execPeriod;
 
