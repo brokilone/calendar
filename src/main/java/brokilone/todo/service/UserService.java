@@ -3,12 +3,15 @@ package brokilone.todo.service;
 import brokilone.todo.dto.TaskListDto;
 import brokilone.todo.dto.UserDto;
 import brokilone.todo.model.Role;
+import brokilone.todo.model.Task;
 import brokilone.todo.model.User;
+import brokilone.todo.repository.TaskRepo;
 import brokilone.todo.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -44,10 +47,5 @@ public class UserService {
         return userRepo.findByEmail(email);
     }
 
-    public User setTasks(TaskListDto taskListDto, String email){
 
-       User byEmail = userRepo.findByEmail(email).orElseThrow(()->new RuntimeException("User not found"));
-       byEmail.setTasks(taskListDto.getTasks());
-       return userRepo.save(byEmail);
-    }
 }

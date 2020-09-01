@@ -42,52 +42,77 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="task : ${user.tasks}">
-                        <td th:text="${task.shortDesc}"></td>
-                        <td th:text="${task.fullDesc}"></td>
-                        <td th:text="${task.execPeriod}"></td>
-                        <td>
-                            <button class="btn btn-success" id="update-data">Редактировать</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger" id="delete-data">Удалить</button>
-                        </td>
+                    <!--                    <tr th:each="task : ${user.tasks}">-->
+                    <!--                        <td th:text="${task.shortDesc}"></td>-->
+                    <!--                        <td th:text="${task.fullDesc}"></td>-->
+                    <!--                        <td th:text="${task.execPeriod}"></td>-->
+                    <!--                        <td>-->
+                    <!--                            <button class="btn btn-success" id="update-data">Редактировать</button>-->
+                    <!--                        </td>-->
+                    <!--                        <td>-->
+                    <!--                            <button class="btn btn-danger" id="delete-data">Удалить</button>-->
+                    <!--                        </td>-->
+                    <!--                    </tr>-->
+                    <tr th:each="task, itemStat : ${taskListDto.tasks}">
+                        <form th:action="@{/home}" method="post" th:object="${taskListDto}">
+                            <input hidden th:field="*{tasks[__${itemStat.index}__].id}"/>
+                            <input hidden th:field="*{tasks[__${itemStat.index}__].author}"/>
+                            <td><input th:field="*{tasks[__${itemStat.index}__].shortDesc}"/>
+                            </td>
+                            <td><input th:field="*{tasks[__${itemStat.index}__].fullDesc}"/>
+                            </td>
+                            <td><input type="date"
+                                       th:field="*{tasks[__${itemStat.index}__].execPeriod}"/>
+                            </td>
+                            <td>
+                                <button class="btn btn-success" id="update-data">Редактировать</button>
+                                <input type="submit" id="submitButton" th:value="Сохранить">
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" id="delete-data">Удалить</button>
+                                <input type="reset" id="resetButton" name="reset" th:value="Сброс"/>
+                            </td>
+                        </form>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div>
-            <form th:action="@{/home/saveChanges}" method="post" th:object="${taskListDto}">
-            <table class="table table-stripped">
-                <thead>
-                <tr>
-                    <th>Название</th>
-                    <th>Описание</th>
-                    <th>Срок</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="task, itemStat : *{tasks}">
-                    <input hidden th:field="*{tasks[__${itemStat.index}__].id}"/>
-                    <input hidden th:field="*{tasks[__${itemStat.index}__].author}"/>
-                    <td> <input th:field="*{tasks[__${itemStat.index}__].shortDesc}"/>
-                        </td>
-                    <td><input th:field="*{tasks[__${itemStat.index}__].fullDesc}"/>
-                      </td>
-                    <td><input type="date"
-                               th:field="*{tasks[__${itemStat.index}__].execPeriod}"/>
-                    </td>
-                    <td>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-                <input type="submit" id="submitButton" th:value="Сохранить">
-                <input type="reset" id="resetButton" name="reset" th:value="Сброс"/>
-            </form>
-        </div>
+        <!--        <div>-->
+        <!--&lt;!&ndash;            <form th:action="@{/home/saveChanges}" method="post" th:object="${taskListDto}">&ndash;&gt;-->
+        <!--            <table class="table table-stripped">-->
+        <!--                <thead>-->
+        <!--                <tr>-->
+        <!--                    <th>Название</th>-->
+        <!--                    <th>Описание</th>-->
+        <!--                    <th>Срок</th>-->
+        <!--                    <th></th>-->
+        <!--                </tr>-->
+        <!--                </thead>-->
+        <!--                <tbody>-->
+        <!--                <tr th:each="task, itemStat : ${taskListDto.tasks}">-->
+        <!--                    <form th:action="@{/home/saveChanges}" method="post" th:object="${taskListDto}">-->
+        <!--                    <input hidden th:field="*{tasks[__${itemStat.index}__].id}"/>-->
+        <!--                    <input hidden th:field="*{tasks[__${itemStat.index}__].author}"/>-->
+        <!--                    <td> <input th:field="*{tasks[__${itemStat.index}__].shortDesc}"/>-->
+        <!--                        </td>-->
+        <!--                    <td><input th:field="*{tasks[__${itemStat.index}__].fullDesc}"/>-->
+        <!--                      </td>-->
+        <!--                    <td><input type="date"-->
+        <!--                               th:field="*{tasks[__${itemStat.index}__].execPeriod}"/>-->
+        <!--                    </td>-->
+        <!--                    <td>-->
+        <!--                        <input type="submit" id="submitButton" th:value="Сохранить">-->
+        <!--                        <input type="reset" id="resetButton" name="reset" th:value="Сброс"/>-->
+        <!--                    </td>-->
+        <!--                    </form>-->
+        <!--                </tr>-->
+        <!--                </tbody>-->
+        <!--            </table>-->
+        <!--&lt;!&ndash;                <input type="submit" id="submitButton" th:value="Сохранить">&ndash;&gt;-->
+        <!--&lt;!&ndash;                <input type="reset" id="resetButton" name="reset" th:value="Сброс"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;            </form>&ndash;&gt;-->
+        <!--        </div>-->
     </div>
 </main>
 <footer>

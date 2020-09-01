@@ -1,7 +1,9 @@
 package brokilone.todo.controller;
 
 import brokilone.todo.dto.TaskListDto;
+import brokilone.todo.model.Task;
 import brokilone.todo.model.User;
+import brokilone.todo.service.TaskService;
 import brokilone.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private TaskService taskService;
 
     @GetMapping
     public String homePage(Model model, Authentication authentication) {
@@ -33,15 +37,20 @@ public class UserController {
         model.addAttribute("user", user);
         TaskListDto taskListDto = new TaskListDto();
         taskListDto.setTasks(user.getTasks());
+        for (Task task : taskListDto.getTasks()) {
+            System.err.println(task);
+        }
         model.addAttribute("taskListDto", taskListDto);
         return "home";
     }
 
-    @PostMapping(value = "/saveChanges")
+    @PostMapping
     public String saveChanges(Model model, @ModelAttribute("taskListDto") TaskListDto taskListDto, Authentication authentication) {
-        String email = authentication.getName();
-        User withTasks = userService.setTasks(taskListDto, email);
-        model.addAttribute("user", withTasks);
+        taskService.setTasks(taskListDto);
+        User user = userService.findUserByEmail(authentication.getName()).orElseThrow(() ->
+                new RuntimeException("Пользователь не найден"));
+        model.addAttribute("user", user);
+        taskListDto.setTasks(user.getTasks());
         model.addAttribute("taskListDto", taskListDto);
         return "home";
     }
