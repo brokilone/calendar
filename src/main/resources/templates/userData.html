@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<br><br>
+<h3 class="text-muted">Привет, <span th:text="${user.firstName} + ' ' + ${user.lastName}"></span></h3>
+<table class="table table-striped">
+    <tr>
+        <th>Имя</th>
+        <td th:text="${user.firstName}"></td>
+    </tr>
+    <tr>
+        <th>Фамилия</th>
+        <td th:text="${user.lastName}"></td>
+    </tr>
+    <tr>
+        <th>E-mail</th>
+        <td th:text="${user.email}"></td>
+    </tr>
+</table>
+</html>

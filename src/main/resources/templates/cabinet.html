@@ -14,21 +14,10 @@
 <header th:replace="header.html :: header"></header>
 <main>
     <div class="fixed-container">
-        <div th:replace="taskList.html"></div>
-
-        <div>
-            <button type="button" class="btn btn-success" id="addButton">Добавить задачу</button>
-            <br><br><br>
-            <form form th:action="@{/home/addTask}" method="post" th:object="${taskDto}" id="addTask">
-                <input th:field="*{shortDesc}" placeholder="Краткое описание"/>&nbsp;&nbsp;
-                <input th:field="*{fullDesc}" placeholder="Полное описание"/>&nbsp;&nbsp;
-                <input type="date" th:field="*{execPeriod}"/>&nbsp;&nbsp;
-                <button type="submit" class="btn btn-success">Сохранить</button>
-            </form>
-        </div>
+        <div th:replace="userData.html"></div>
+        <a href="/home">Перейти к задачам</a>
     </div>
 </main>
-
 <footer th:replace="footer.html :: footer"></footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
