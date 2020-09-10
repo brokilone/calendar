@@ -1,5 +1,6 @@
 package brokilone.todo.controller;
 
+import brokilone.todo.dto.TaskDto;
 import brokilone.todo.dto.TaskListDto;
 import brokilone.todo.model.Task;
 import brokilone.todo.model.User;
@@ -36,22 +37,40 @@ public class UserController {
                 new RuntimeException("Пользователь не найден"));
         model.addAttribute("user", user);
         TaskListDto taskListDto = new TaskListDto();
-        taskListDto.setTasks(user.getTasks());
-        for (Task task : taskListDto.getTasks()) {
-            System.err.println(task);
+        System.err.println("Tasks: " + user.getTasks());
+        for (Task task : user.getTasks()) {
+            TaskDto taskDto = new TaskDto();
+            taskDto.setId(task.getId());
+            taskDto.setShortDesc(task.getShortDesc());
+            taskDto.setFullDesc(task.getFullDesc());
+            taskDto.setExecPeriod(task.getExecPeriod());
+            taskDto.setIsExist(true);
+            taskListDto.getTasks().add(taskDto);
         }
         model.addAttribute("taskListDto", taskListDto);
+        model.addAttribute("taskDto", new TaskDto());
         return "home";
     }
 
     @PostMapping
-    public String saveChanges(Model model, @ModelAttribute("taskListDto") TaskListDto taskListDto, Authentication authentication) {
-        taskService.setTasks(taskListDto);
-        User user = userService.findUserByEmail(authentication.getName()).orElseThrow(() ->
+    public String saveChanges(Model model, @ModelAttribute("taskListDto") TaskListDto taskListDto,
+                              Authentication authentication) {
+        taskService.setTasks(taskListDto, authentication.getName());
+        return "redirect:/home";
+    }
+    @PostMapping(value = "/addTask")
+    public String addTask(Model model, @ModelAttribute("taskDto") TaskDto taskDto,
+                          Authentication authentication){
+        taskService.add(taskDto, authentication.getName());
+        return "redirect:/home";
+    }
+
+    @GetMapping(value = "/cabinet")
+    public String showCabinet(Model model, Authentication authentication){
+        String currentPrincipalName = authentication.getName();
+        User user = userService.findUserByEmail(currentPrincipalName).orElseThrow(() ->
                 new RuntimeException("Пользователь не найден"));
         model.addAttribute("user", user);
-        taskListDto.setTasks(user.getTasks());
-        model.addAttribute("taskListDto", taskListDto);
-        return "home";
+        return "cabinet";
     }
 }

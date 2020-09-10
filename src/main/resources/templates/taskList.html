@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<br><br>
+<div th:switch="${user.tasks.size()}">
+    <h3 th:case="0">Пока вы не добавили ни одной задачи</h3>
+    <div th:case="*">
+        <h3>Задачи</h3>
+        <table class="table table-stripped">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Срок</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task, itemStat : ${taskListDto.tasks}">
+                <form th:action="@{/home}" method="post" th:object="${taskListDto}" class="taskForm">
+                    <input hidden th:field="*{tasks[__${itemStat.index}__].id}"/>
+                    <td><input th:field="*{tasks[__${itemStat.index}__].shortDesc}" disabled/>
+                    </td>
+                    <td><input th:field="*{tasks[__${itemStat.index}__].fullDesc}" disabled/>
+                    </td>
+                    <td><input type="date"
+                               th:field="*{tasks[__${itemStat.index}__].execPeriod}" disabled/>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-info update-data">Редактировать</button>&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-success submitButton">Сохранить</button>
+                        <button type="button" class="btn btn-danger delete-data">
+                            <input th:field="*{tasks[__${itemStat.index}__].isExist}"
+                                   class="hidden-input" type="checkbox" checked>Удалить</button>&nbsp;&nbsp;
+                        <button type="reset" class="btn btn-dark resetButton" name="reset">Сброс</button>
+                        <button type="button" class="btn btn-dark abortButton" name="Отмена">Отмена</button>
+                    </td>
+                </form>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+</html>

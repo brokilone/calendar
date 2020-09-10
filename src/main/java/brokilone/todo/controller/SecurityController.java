@@ -35,7 +35,7 @@ public class SecurityController {
     public String registerMewUser(@ModelAttribute("user")UserDto userDto, Model model) {
         try{
             userService.registerNewUserAccount(userDto);
-            return "home";
+            return "login";
         } catch (Exception e) {
             model.addAttribute("error", "Пользователь с таким e-mail уже существует");
             model.addAttribute("user", userDto);
