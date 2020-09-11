@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<br><br>
+<h3>Панель администратора</h3>
+<table class="table table-striped">
+    <thead>
+    <th>Email</th>
+    <th>Роль</th>
+    <th>Активен</th>
+    <th></th>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${userList}">
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.role}"></td>
+        <td th:text="${user.enabled}"></td>
+        <td><a th:href="@{'/admin/' + ${user.id}}">Редактировать</a></td>
+    </tr>
+    </tbody>
+</table>
+</html>

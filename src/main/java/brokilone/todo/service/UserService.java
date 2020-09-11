@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -44,4 +45,15 @@ public class UserService {
     }
 
 
+    public List<User> findAll() {
+        return userRepo.findAll();
+    }
+
+    public void save(User user) {
+        userRepo.save(user);
+    }
+
+    public Optional<User> findUserById(Long id) {
+        return userRepo.findById(id);
+    }
 }

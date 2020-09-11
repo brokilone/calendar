@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<br><br>
+<h3>Редактирование данных пользователя</h3>
+<form th:action="@{'/admin/' + ${user.id}}" method="post" th:object="${user}">
+    <input hidden th:field="*{id}"/>
+    <input th:field="*{email}"/>
+    <select th:field="*{role}">
+        <option th:each="rl : ${roles}" th:value="${rl}" th:text="${rl}">
+        </option>
+    </select>
+    <input type="checkbox" th:field="*{enabled}"/>
+    <input type="submit" value="Сохранить"/>
+</form>
+</html>
