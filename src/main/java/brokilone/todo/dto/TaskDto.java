@@ -15,6 +15,24 @@ public class TaskDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate execPeriod;
     private boolean isExist;
+    private boolean hasFile;
+    private String fileName;
+
+    public boolean isExist() {
+        return isExist;
+    }
+
+    public void setExist(boolean exist) {
+        isExist = exist;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public Long getId() {
         return id;
@@ -54,5 +72,21 @@ public class TaskDto {
 
     public void setIsExist(boolean exist) {
         isExist = exist;
+    }
+
+    public boolean getHasFile() {
+        return hasFile;
+    }
+
+    public void setHasFile(boolean hasFile) {
+        this.hasFile = hasFile;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskDto{" +
+                "id=" + id +
+                ", hasFile=" + hasFile +
+                '}';
     }
 }

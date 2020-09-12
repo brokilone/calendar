@@ -10,12 +10,15 @@
                 <th>Название</th>
                 <th>Описание</th>
                 <th>Срок</th>
+                <th>Вложение</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="task, itemStat : ${taskListDto.tasks}">
-                <form th:action="@{/home}" method="post" th:object="${taskListDto}" class="taskForm">
+                <form th:action="@{/home}" method="post" th:object="${taskListDto}" class="taskForm"
+                      enctype="multipart/form-data">
+                    <input hidden th:attr="value = ${task.id}" name="id"/>
                     <input hidden th:field="*{tasks[__${itemStat.index}__].id}"/>
                     <td><input th:field="*{tasks[__${itemStat.index}__].shortDesc}" disabled/>
                     </td>
@@ -24,14 +27,21 @@
                     <td><input type="date"
                                th:field="*{tasks[__${itemStat.index}__].execPeriod}" disabled/>
                     </td>
+                    <td><a target="_blank" th:href="@{'/files/' + *{tasks[__${itemStat.index}__].fileName}}"
+                           th:text="*{tasks[__${itemStat.index}__].fileName}"></a>
+                    <button type="button" class="btn btn-danger delete-file">
+                        <input type="checkbox" th:field="*{tasks[__${itemStat.index}__].hasFile}"/>
+                    Удалить</button>
+                        <input type="file" name="file" class="hidden-input add-file"/>
+                    </td>
                     <td>
-                        <button type="button" class="btn btn-info update-data">Редактировать</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-info update-data">Редактировать</button>
                         <button type="submit" class="btn btn-success submitButton">Сохранить</button>
-                        <button type="button" class="btn btn-danger delete-data">
+                        <button type="button" class="btn btn-danger delete-data mt-2">
                             <input th:field="*{tasks[__${itemStat.index}__].isExist}"
                                    class="hidden-input" type="checkbox" checked>Удалить</button>&nbsp;&nbsp;
-                        <button type="reset" class="btn btn-dark resetButton" name="reset">Сброс</button>
-                        <button type="button" class="btn btn-dark abortButton" name="Отмена">Отмена</button>
+                        <button type="reset" class="btn btn-dark resetButton mt-2" name="reset">Сброс</button>
+                        <button type="button" class="btn btn-dark abortButton mt-2" name="Отмена">Отмена</button>
                     </td>
                 </form>
             </tr>

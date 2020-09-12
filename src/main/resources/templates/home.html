@@ -19,10 +19,11 @@
         <div>
             <button type="button" class="btn btn-success" id="addButton">Добавить задачу</button>
             <br><br><br>
-            <form form th:action="@{/home/addTask}" method="post" th:object="${taskDto}" id="addTask">
-                <input th:field="*{shortDesc}" placeholder="Краткое описание"/>&nbsp;&nbsp;
-                <input th:field="*{fullDesc}" placeholder="Полное описание"/>&nbsp;&nbsp;
-                <input type="date" th:field="*{execPeriod}"/>&nbsp;&nbsp;
+            <form form th:action="@{/home/addTask}" method="post" th:object="${taskDto}" id="addTask" enctype="multipart/form-data">
+                <input th:field="*{shortDesc}" placeholder="Краткое описание"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input th:field="*{fullDesc}" placeholder="Полное описание"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="file" name="file"/>&nbsp;&nbsp;
+                <input type="date" th:field="*{execPeriod}"/>&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="submit" class="btn btn-success">Сохранить</button>
             </form>
         </div>

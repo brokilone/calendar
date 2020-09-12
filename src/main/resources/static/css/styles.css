@@ -1,5 +1,5 @@
 #error-pass,.submitButton, .resetButton,.abortButton, .hidden-input,
-#addTask{
+#addTask, .add-file, .delete-file{
     display: none;
 }
 h3{

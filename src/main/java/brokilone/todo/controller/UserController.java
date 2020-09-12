@@ -7,14 +7,17 @@ import brokilone.todo.model.User;
 import brokilone.todo.service.TaskService;
 import brokilone.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 
 /**
@@ -30,6 +33,9 @@ public class UserController {
     @Autowired
     private TaskService taskService;
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     @GetMapping
     public String homePage(Model model, Authentication authentication) {
         String currentPrincipalName = authentication.getName();
@@ -44,7 +50,9 @@ public class UserController {
             taskDto.setShortDesc(task.getShortDesc());
             taskDto.setFullDesc(task.getFullDesc());
             taskDto.setExecPeriod(task.getExecPeriod());
+            taskDto.setFileName(task.getFileName());
             taskDto.setIsExist(true);
+            taskDto.setHasFile(task.getFileName()!=null);
             taskListDto.getTasks().add(taskDto);
         }
         model.addAttribute("taskListDto", taskListDto);
@@ -54,23 +62,50 @@ public class UserController {
 
     @PostMapping
     public String saveChanges(Model model, @ModelAttribute("taskListDto") TaskListDto taskListDto,
-                              Authentication authentication) {
-        taskService.setTasks(taskListDto, authentication.getName());
+                              @RequestParam("file") MultipartFile file,
+                              @RequestParam("id") String id) throws IOException {
+        Task task = taskService.getById(Long.valueOf(id))
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+        if (file != null && !file.isEmpty()) {
+            String fullName = getFullName(file);
+            file.transferTo(new File(uploadPath + "/" + fullName));
+            task.setFileName(fullName);
+            taskService.save(task);
+            return "redirect:/home";
+        }
+        taskService.setTasks(taskListDto);
         return "redirect:/home";
     }
+
+
     @PostMapping(value = "/addTask")
     public String addTask(Model model, @ModelAttribute("taskDto") TaskDto taskDto,
-                          Authentication authentication){
+                          Authentication authentication, @RequestParam("file") MultipartFile file) throws IOException {
+        if (file != null && !file.isEmpty()) {
+            String fullName = getFullName(file);
+            file.transferTo(new File(uploadPath + "/" + fullName));
+            taskDto.setFileName(fullName);
+        }
         taskService.add(taskDto, authentication.getName());
         return "redirect:/home";
     }
 
     @GetMapping(value = "/cabinet")
-    public String showCabinet(Model model, Authentication authentication){
+    public String showCabinet(Model model, Authentication authentication) {
         String currentPrincipalName = authentication.getName();
         User user = userService.findUserByEmail(currentPrincipalName).orElseThrow(() ->
                 new RuntimeException("Пользователь не найден"));
         model.addAttribute("user", user);
         return "cabinet";
+    }
+
+
+    private String getFullName(@RequestParam("file") MultipartFile file) {
+        File dir = new File(uploadPath);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        String uuidName = UUID.randomUUID().toString();
+        return uuidName + "." + file.getOriginalFilename();
     }
 }
