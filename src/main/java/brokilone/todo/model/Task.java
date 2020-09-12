@@ -23,8 +23,18 @@ public class Task {
     @Column(length = 100)
     private String shortDesc;
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     @Column(length = 1000)
     private String fullDesc;
+
+    private String fileName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Future
@@ -80,6 +90,7 @@ public class Task {
                 "id=" + id +
                 ", shortDesc='" + shortDesc + '\'' +
                 ", fullDesc='" + fullDesc + '\'' +
+                ", fileName='" + fileName + '\'' +
                 ", execPeriod=" + execPeriod +
                 ", author=" + author +
                 '}';
