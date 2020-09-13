@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,23 +8,22 @@
     <title>My Smart Calendar</title>
 </head>
 <body>
-<header>
-</header>
+<header th:replace="header.html :: header"></header>
 <main>
-    <div class="container">
+    <div class="container mt-3">
         <h3>Введите данные учетной записи</h3>
         <a href="/login">Войти, используя учетные данные стороннего сервиса</a>
         <p class="text-danger" role="alert" th:text="${error}"></p>
         <form action="/login" method="post">
-            <div class="form-group">
-                <label for="email"> Ваш email: </label>
-                <input required type="email" name="email" id="email" class="form-control" />
+            <div class="form-group row">
+                <label for="email" class="col-sm-2"> Ваш email: </label>
+                <input required type="email" name="email" id="email" class="form-control col-sm-8" />
             </div>
-            <div class="form-group">
-                <label for="pass"> Пароль: </label>
-                <input required class="form-control" type="password" name="password" id="pass" />
+            <div class="form-group row">
+                <label for="pass" class="col-sm-2"> Пароль: </label>
+                <input required class="form-control col-sm-8" type="password" name="password" id="pass" />
             </div>
-            <button type="submit" class="btn btn-primary">Войти</button>
+            <button type="submit" class="btn btn-success">Войти</button>
         </form>
         <br>
         <a href="/reg">Зарегистрироваться</a>
