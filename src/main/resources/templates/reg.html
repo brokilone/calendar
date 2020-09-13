@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,40 +10,39 @@
     <title>My Smart Calendar: register</title>
 </head>
 <body>
-<header>
-</header>
+<header th:replace="header.html :: header"></header>
 <main>
-    <div class="container">
-        <h1>Регистрация нового пользователя</h1>
+    <div class="container mt-3">
+        <h3>Регистрация нового пользователя</h3>
         <p class="text-danger" role="alert" th:text="${error}"></p>
         <form class="pass-header" action="/reg" th:object="${user}" method="POST" enctype="utf8">
-            <div class="form-group">
-                <label for="firstName">Имя: </label>
-                <input required class="form-control" id="firstName" th:field="*{firstName}"/>
+            <div class="form-group row">
+                <label for="firstName" class="col-sm-2">Имя: </label>
+                <input required class="form-control col-sm-8" id="firstName" th:field="*{firstName}"/>
             </div>
-            <div class="form-group">
-                <label for="lastName">Фамилия</label>
-                <input required class="form-control" id="lastName" th:field="*{lastName}"/>
+            <div class="form-group row">
+                <label for="lastName" class="col-sm-2">Фамилия</label>
+                <input required class="form-control col-sm-8" id="lastName" th:field="*{lastName}"/>
             </div>
-            <div class="form-group">
-                <label for="email"> Ваш email: </label>
-                <input required class="form-control" id="email" type="email" th:field="*{email}"/>
+            <div class="form-group row">
+                <label for="email" class="col-sm-2"> Ваш email: </label>
+                <input required class="form-control col-sm-8" id="email" type="email" th:field="*{email}"/>
             </div>
-            <div class="form-group">
-                <label for="pass">Пароль: </label>
-                <input required class="form-control" id="pass" type="password" th:field="*{password}"/>
+            <div class="form-group row" >
+                <label for="pass" class="col-sm-2">Пароль: </label>
+                <input required class="form-control col-sm-8" id="pass" type="password" th:field="*{password}"/>
             </div>
-            <div class="form-group">
-                <label for="matchPass">Подтвердите пароль: </label>
-                <input required class="form-control" id="matchPass" type="password"/>
+            <div class="form-group row">
+                <label for="matchPass" class="col-sm-2">Подтвердите пароль: </label>
+                <input required class="form-control col-sm-8" id="matchPass" type="password"/>
                 <br>
                 <div class="alert alert-warning" role="alert" id="error-pass">Пароли не совпадают!</div>
             </div>
-            <div class="form-group form-check">
-                <input required type="checkbox" class="form-check-input" id="check">
-                <label  class="form-check-label" for="check">Я даю согласие на обработку персональных данных</label>
+            <div class="form-group form-check row">
+                <input required type="checkbox" class="form-check-input ml-1" id="check" />
+                <label  class="form-check-label ml-4" for="check">Я даю согласие на обработку персональных данных</label>
             </div>
-            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            <button type="submit" class="btn btn-success">Зарегистрироваться</button>
         </form>
         <a href="/login">Вернуться на страницу авторизации</a>
     </div>
