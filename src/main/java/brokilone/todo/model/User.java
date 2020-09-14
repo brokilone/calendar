@@ -26,6 +26,8 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
 
+    private String activationCode;
+
     @Column(length = 60)
     private String password;
 
@@ -34,7 +36,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<>();
 
-    private boolean enabled = true;
+    private boolean enabled;
 
     public Long getId() {
         return id;
@@ -92,6 +94,14 @@ public class User implements UserDetails {
         this.tasks = tasks;
     }
 
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(role);
@@ -130,6 +140,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 
     @Override
     public String toString() {

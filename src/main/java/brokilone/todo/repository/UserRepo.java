@@ -17,5 +17,5 @@ public interface UserRepo extends JpaRepository<User, Long>, JpaSpecificationExe
     Optional<User> findByEmail(String email);
 
 
-
+    Optional<User> findByActivationCode(String code);
 }
