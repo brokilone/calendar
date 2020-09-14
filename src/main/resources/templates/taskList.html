@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <br><br>
 <div th:switch="${user.tasks.size()}">
     <h3 th:case="0">Пока вы не добавили ни одной задачи</h3>
@@ -29,19 +29,20 @@
                     </td>
                     <td><a target="_blank" th:href="@{'/files/' + *{tasks[__${itemStat.index}__].fileName}}"
                            th:text="*{tasks[__${itemStat.index}__].fileName}"></a>
-                    <button type="button" class="btn btn-danger delete-file">
-                        <input type="checkbox" th:field="*{tasks[__${itemStat.index}__].hasFile}"/>
-                    Удалить</button>
+                    <button type="button" class="delete-file">
+                        <i class="fa fa-times-circle"></i>
+                        <input type="checkbox" th:field="*{tasks[__${itemStat.index}__].hasFile}" class="hidden-input"/>
+                        </button>
                         <input type="file" name="file" class="hidden-input add-file"/>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-info update-data">Редактировать</button>
-                        <button type="submit" class="btn btn-success submitButton">Сохранить</button>
-                        <button type="button" class="btn btn-danger delete-data mt-2">
+                        <button type="button" class="btn btn-success update-data mb-2">Редактировать</button>
+                        <button type="submit" class="btn btn-success submitButton mb-2">Сохранить</button>
+                        <button type="button" class="btn btn-danger delete-data mb-2">
                             <input th:field="*{tasks[__${itemStat.index}__].isExist}"
-                                   class="hidden-input" type="checkbox" checked>Удалить</button>&nbsp;&nbsp;
-                        <button type="reset" class="btn btn-dark resetButton mt-2" name="reset">Сброс</button>
-                        <button type="button" class="btn btn-dark abortButton mt-2" name="Отмена">Отмена</button>
+                                   class="hidden-input" type="checkbox" checked>Удалить</button>
+                        <button type="reset" class="btn btn-dark resetButton mb-2" name="reset">Сброс</button>
+                        <button type="button" class="btn btn-dark abortButton mb-2" name="Отмена">Отмена</button>
                     </td>
                 </form>
             </tr>
