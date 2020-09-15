@@ -6,8 +6,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.MimeMessage;
-
 /**
  * MailSender
  * created by Ksenya_Ushakova at 14.09.2020

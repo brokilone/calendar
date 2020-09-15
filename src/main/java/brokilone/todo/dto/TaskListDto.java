@@ -1,7 +1,5 @@
 package brokilone.todo.dto;
 
-import brokilone.todo.model.Task;
-
 import java.util.ArrayList;
 import java.util.List;
 

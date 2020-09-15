@@ -1,6 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <br><br>
-<div th:switch="${user.tasks.size()}">
+<div th:switch="${user.tasks.size()}" xmlns:th="http://www.thymeleaf.org">
     <h3 th:case="0">Пока вы не добавили ни одной задачи</h3>
     <div th:case="*">
         <h3>Задачи</h3>
@@ -51,4 +50,3 @@
 
     </div>
 </div>
-</html>

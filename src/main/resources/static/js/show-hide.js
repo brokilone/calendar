@@ -36,6 +36,18 @@ $(function () {
         $(this).parents('tr').find('.add-file').show();
         $(this).parents('td').find('a').hide();
         $(this).hide();
-    })
+    });
+
+    $('#changeData').on('click', function () {
+        $('#userChange').show();
+        $(this).hide();
+        $('#userDataTable').hide();
+
+    });
+    $('#noChange').on('click', function () {
+        $('#userChange').hide();
+        $('#changeData').show();
+        $('#userDataTable').show();
+    });
 
 })
