@@ -16,16 +16,16 @@
             </thead>
             <tbody>
             <tr th:each="task, itemStat : ${taskListDto.tasks}">
-                <form th:action="@{/home}" method="post" th:object="${taskListDto}" class="taskForm"
+                <form th:action="@{/home}" method="post" th:object="${taskListDto}" class="taskForm form-inline"
                       enctype="multipart/form-data">
                     <input hidden th:attr="value = ${task.id}" name="id"/>
                     <input hidden th:field="*{tasks[__${itemStat.index}__].id}"/>
-                    <td><input th:field="*{tasks[__${itemStat.index}__].shortDesc}" disabled/>
+                    <td><input th:field="*{tasks[__${itemStat.index}__].shortDesc}" class="form-control" disabled/>
                     </td>
-                    <td><input th:field="*{tasks[__${itemStat.index}__].fullDesc}" disabled/>
+                    <td><input th:field="*{tasks[__${itemStat.index}__].fullDesc}" class="form-control" disabled/>
                     </td>
                     <td><input type="date"
-                               th:field="*{tasks[__${itemStat.index}__].execPeriod}" disabled/>
+                               th:field="*{tasks[__${itemStat.index}__].execPeriod}" class="form-control" disabled/>
                     </td>
                     <td><a target="_blank" th:href="@{'/files/' + *{tasks[__${itemStat.index}__].fileName}}"
                            th:text="*{tasks[__${itemStat.index}__].fileName}"></a>

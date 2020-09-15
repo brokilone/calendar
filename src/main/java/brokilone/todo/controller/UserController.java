@@ -14,6 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.File;
 import java.io.IOException;
@@ -98,7 +102,33 @@ public class UserController {
         model.addAttribute("user", user);
         return "cabinet";
     }
+    @PostMapping(value = "/cabinet")
+    public String savePersonalData(Model model, Authentication authentication,
+                                   @ModelAttribute ("user") User user) {
+        String currentPrincipalName = authentication.getName();
+        userService.updateUserData(currentPrincipalName, user);
+        return "redirect:/home/cabinet";
+    }
 
+    @PostMapping(value = "/changePass")
+    public String changePass(Model model, Authentication authentication,
+                             @RequestParam("password") String password,
+                             @RequestParam("oldpassword") String oldPassword) {
+        String email = authentication.getName();
+        User user = userService.findUserByEmail(email)
+                .orElseThrow(() -> new RuntimeException
+                        (String.format("Пациент с параметром email='%s' не найден", email)));
+
+        if (!userService.validateOldPassword(user, oldPassword)) {
+            model.addAttribute("message", "Введен недействительный пароль!");
+        } else {
+            userService.saveWithNewPassword(user, password);
+            model.addAttribute("message", "Изменения успешно сохранены!");
+        }
+        model.addAttribute("user", userService.findUserByEmail(authentication.getName()).get());
+
+        return "cabinet";
+    }
 
     private String getFullName(@RequestParam("file") MultipartFile file) {
         File dir = new File(uploadPath);
