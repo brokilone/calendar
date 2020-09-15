@@ -1,7 +1,7 @@
 @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css');
 
 #error-pass,.submitButton, .resetButton,.abortButton, .hidden-input,
-#addTask, .add-file, .delete-file, #pass-check{
+#addTask, .add-file, .delete-file, #pass-check, #userChange, #passChange{
     display: none;
 }
 

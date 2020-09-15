@@ -1,31 +1,15 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <script th:src="@{/js/jquery-3.5.1.min.js}" src="/static/js/jquery-3.5.1.min.js"></script>
-    <script th:src="@{/js/show-hide.js}" src="/static/js/show-hide.js"></script>
-    <script th:src="@{/js/reset.js}" src="/static/js/reset.js"></script>
+    <div th:replace="parts/head.html"></div>
     <title>My Smart Calendar: home page</title>
 </head>
 <body>
-<header th:replace="header.html :: header"></header>
+<header th:replace="parts/header.html :: header"></header>
 <main>
     <div class="container">
-        <div th:replace="userList.html"></div>
+        <div th:replace="parts/userList.html"></div>
     </div>
 </main>
-<footer th:replace="footer.html :: footer"></footer>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
+<footer th:replace="parts/footer.html :: footer"></footer>
 </body>
 </html>
