@@ -5,6 +5,8 @@ import brokilone.todo.model.Role;
 import brokilone.todo.model.User;
 import brokilone.todo.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class UserService {
     @Autowired
     private MailSender mailSender;
 
-    public boolean registerNewUserAccount(final UserDto accountDto){
+    public boolean registerNewUserAccount(final UserDto accountDto) {
         Optional<User> userByEmail = findUserByEmail(accountDto.getEmail());
         if (userByEmail.isPresent()) {
             return false;
@@ -71,7 +73,7 @@ public class UserService {
 
     public boolean activateUser(String code) {
         Optional<User> byActivationCode = userRepo.findByActivationCode(code);
-        if(!byActivationCode.isPresent()) {
+        if (!byActivationCode.isPresent()) {
             return false;
         }
         User user = byActivationCode.get();
@@ -79,5 +81,32 @@ public class UserService {
         user.setEnabled(true);
         userRepo.save(user);
         return true;
+    }
+
+    public void updateUserData(String currentPrincipalName, User user) {
+        User userFromDb = userRepo.findByEmail(currentPrincipalName)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        boolean firstNameChanged = !user.getFirstName().equals(userFromDb.getFirstName());
+        boolean lastNameChanged = !user.getLastName().equals(userFromDb.getLastName());
+        boolean emailChanged = !user.getEmail().equals(userFromDb.getEmail());
+
+        if (firstNameChanged) userFromDb.setFirstName(user.getFirstName());
+        if (lastNameChanged) userFromDb.setLastName(user.getLastName());
+        if (emailChanged) {
+            userFromDb.setEmail(user.getEmail());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User userDetails = (User) authentication.getPrincipal();
+            userDetails.setUserName(userFromDb.getUsername());
+        }
+        userRepo.save(userFromDb);
+    }
+
+    public boolean validateOldPassword(User user, String oldPassword) {
+        return passwordEncoder.matches(oldPassword, user.getPassword());
+    }
+
+    public void saveWithNewPassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepo.save(user);
     }
 }

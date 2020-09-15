@@ -15,4 +15,26 @@
         <td th:text="${user.email}"></td>
     </tr>
 </table>
+<button type="button" class="btn btn-success mt-4" id="changeData">Изменить данные</button>
+<br><br><br>
+<form class="form-inline" method="post" th:object="${user}" id="userChange">
+    <input class="form-control" th:field="*{firstName}" placeholder="*{firstName}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+    <input class="form-control" th:field="*{lastName}" placeholder="*{lastName}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+    <input class="form-control mr-3" th:field="*{email}" placeholder="*{email}" type="email"/>&nbsp;
+    <button type="submit" class="btn btn-success">Сохранить</button>
+</form>
+
+<button type="button" class="btn btn-success mt-4" id="changePass">Изменить пароль</button>
+<br><br><br>
+<form th:action="@{/home/changePass}" method="post" th:object="${user}" id="passChange">
+    <p class="text-danger mv-3" role="alert" th:text="${message}"></p>
+    <input id="oldpass" name="oldpassword" type="password" class="form-control col-4 mt-3" placeholder="Старый пароль"/>
+    <input id="pass" name="password" type="password" class="form-control col-4 mt-3" placeholder="Новый пароль"/>
+    <input id="passConfirm" type="password" placeholder="Повторите пароль" class="form-control col-4 mt-3"/>
+    <div id="pass-check">
+        <i class="fa fa-times-circle mt-3"></i>
+        Пароли не совпадают!
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Сохранить</button>
+</form>
 </html>
