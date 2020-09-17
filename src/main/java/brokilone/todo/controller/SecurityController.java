@@ -1,13 +1,18 @@
 package brokilone.todo.controller;
 
+import brokilone.todo.dto.CaptchaResponseDto;
 import brokilone.todo.dto.UserDto;
 import brokilone.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
 
 
 /**
@@ -17,8 +22,16 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class SecurityController {
 
+    private static final String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${recaptcha.secret}")
+    private String secret;
 
     @GetMapping("/reg")
     public String showRegistrationForm(Model model) {
@@ -40,7 +53,16 @@ public class SecurityController {
 
 
     @PostMapping("/reg")
-    public String registerMewUser(@ModelAttribute("user") UserDto userDto, Model model) {
+    public String registerMewUser(@ModelAttribute("user") UserDto userDto,
+                                  @RequestParam ("g-recaptcha-response") String captchaResponse,
+                                  Model model) {
+        String url = String.format(CAPTCHA_URL, secret, captchaResponse);
+        CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
+        if(!response.isSuccess()){
+            model.addAttribute("captchaError", "Заполните reCaptcha!");
+            model.addAttribute("user", userDto);
+            return "reg";
+        }
         if (userService.registerNewUserAccount(userDto)) {
             return "login";
         }
