@@ -36,6 +36,8 @@
                 <input required type="checkbox" class="form-check-input ml-1" id="check" />
                 <label  class="form-check-label ml-4" for="check">Я даю согласие на обработку персональных данных</label>
             </div>
+            <div class="g-recaptcha" data-sitekey="6LcE58wZAAAAAN-q6188PnSgWQx_DekRQvBrQ54s"></div>
+            <p class="text-danger" role="alert" th:text="${captchaError}"></p>
             <button type="submit" class="btn btn-success">Зарегистрироваться</button>
         </form>
         <a href="/login">Вернуться на страницу авторизации</a>

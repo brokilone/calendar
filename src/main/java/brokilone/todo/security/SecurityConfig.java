@@ -31,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/login").usernameParameter("email").defaultSuccessUrl("/home").permitAll()
                 .and()
+                .rememberMe()
+                .and()
                 .logout().logoutSuccessUrl("/login").invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID").permitAll()
                 .and()
