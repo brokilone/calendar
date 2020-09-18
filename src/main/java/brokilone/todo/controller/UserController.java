@@ -12,12 +12,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 /**
@@ -38,6 +44,11 @@ public class UserController {
 
     @GetMapping
     public String homePage(Model model, Authentication authentication) {
+        addHomeAttributes(model, authentication);
+        return "home";
+    }
+
+    private void addHomeAttributes(Model model, Authentication authentication) {
         String currentPrincipalName = authentication.getName();
         User user = userService.findUserByEmail(currentPrincipalName).orElseThrow(() ->
                 new RuntimeException("Пользователь не найден"));
@@ -57,7 +68,6 @@ public class UserController {
         }
         model.addAttribute("taskListDto", taskListDto);
         model.addAttribute("taskDto", new TaskDto());
-        return "home";
     }
 
     @PostMapping
@@ -79,14 +89,29 @@ public class UserController {
 
 
     @PostMapping(value = "/addTask")
-    public String addTask(Model model, @ModelAttribute("taskDto") TaskDto taskDto,
-                          Authentication authentication, @RequestParam("file") MultipartFile file) throws IOException {
-        if (file != null && !file.isEmpty()) {
-            String fullName = getFullName(file);
-            file.transferTo(new File(uploadPath + "/" + fullName));
-            taskDto.setFileName(fullName);
+    public String addTask(Authentication authentication, @Valid Task task,
+                           BindingResult result, Model model,
+                          @RequestParam("file") MultipartFile file) throws IOException {
+        System.err.println("task: " + task);
+        if (result.hasErrors()){
+            Collector<FieldError, ?, Map<String, String>> collector = Collectors.toMap(
+                    fieldError ->
+                            fieldError.getField() + "Error",
+                    FieldError::getDefaultMessage);
+            Map<String, String> errorsMap = result.getFieldErrors().stream().collect(collector);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("newTask", task);
+            addHomeAttributes(model, authentication);
+            return "home";
+        } else {
+            if (file != null && !file.isEmpty()) {
+                String fullName = getFullName(file);
+                file.transferTo(new File(uploadPath + "/" + fullName));
+                task.setFileName(fullName);
+            }
+            taskService.add(task, authentication.getName());
+
         }
-        taskService.add(taskDto, authentication.getName());
         return "redirect:/home";
     }
 

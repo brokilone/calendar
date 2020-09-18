@@ -47,14 +47,9 @@ public class TaskService {
         }
     }
 
-    public void add(TaskDto taskDto, String email) {
-        Task task = new Task();
+    public void add(Task task, String email) {
         User user = userRepo.findByEmail(email).get();
         task.setAuthor(user);
-        task.setShortDesc(taskDto.getShortDesc());
-        task.setFullDesc(taskDto.getFullDesc());
-        task.setExecPeriod(taskDto.getExecPeriod());
-        task.setFileName(taskDto.getFileName());
         taskRepo.save(task);
     }
 

@@ -1,10 +1,14 @@
 package brokilone.todo.model;
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -21,8 +25,9 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 100)
+    @NotBlank(message = "Пожалуста, заполните это поле")
+    @Length(max = 100, message = "Максимальная длина 100")
     private String shortDesc;
-
     public String getFileName() {
         return fileName;
     }
@@ -32,12 +37,15 @@ public class Task {
     }
 
     @Column(length = 1000)
+    @NotBlank(message = "Пожалуста, заполните это поле")
+    @Length(max = 1000, message = "Максимальная длина 1000")
     private String fullDesc;
 
     private String fileName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Future
+    @FutureOrPresent(message = "Дата не может быть в прошедшем времени")
+    @NotNull(message = "Пожалуста, заполните это поле")
     private LocalDate execPeriod;
 
     @ManyToOne
