@@ -2,10 +2,12 @@ package brokilone.todo.controller;
 
 import brokilone.todo.dto.CaptchaResponseDto;
 import brokilone.todo.dto.UserDto;
+import brokilone.todo.model.User;
 import brokilone.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
+import java.util.Optional;
+import java.util.UUID;
 
 
 /**
@@ -76,6 +80,45 @@ public class SecurityController {
         if (error != null && error.isEmpty()) {
             model.addAttribute("error", "Использован неверный e-mail/пароль");
         }
+        return "login";
+    }
+
+    @GetMapping ({"/reset"})
+    public String showResetPage(){
+        return "reset";
+    }
+    @PostMapping({"/reset"})
+    public String resetPassword(@RequestParam ("email") String email, Model model){
+        Optional<User> user = userService.findUserByEmail(email);
+        if (user.isPresent()) {
+            userService.resetUserPassword(user.get());
+        }
+        model.addAttribute("message", "Если email введен корректно, вы получите письмо со ссылкой " +
+                "для сброса пароля.");
+        return "reset";
+    }
+
+    @GetMapping("/resetPass/{code}")
+    public String showResetUserPass(Model model, @PathVariable String code) {
+       User user = userService.validateUserCode(code);
+        if (user != null) {
+            model.addAttribute("email", user.getEmail());
+            return "resetPassForm";
+        } else {
+            model.addAttribute("error", "Ссылка недействительна!");
+            return "login";
+        }
+    }
+
+    @PostMapping("/resetPassForm")
+    public String doReset(Model model, @RequestParam ("email") String email,
+                          @RequestParam ("password") String password) {
+        boolean updatePassword = userService.updatePassword(email, password);
+        if (!updatePassword){
+            model.addAttribute("error", "Введены некорректные данные");
+
+        }
+        model.addAttribute("error", "Пароль успешно изменен");
         return "login";
     }
 

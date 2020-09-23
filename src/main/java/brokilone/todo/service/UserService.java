@@ -109,4 +109,36 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         userRepo.save(user);
     }
+
+    public void resetUserPassword(User fromDb) {
+        fromDb.setActivationCode(UUID.randomUUID().toString());
+        userRepo.save(fromDb);
+        String message = String.format("%s %s, вы запросили сброс пароля для учетной записи My Smart Calendar! \n" +
+                        "Для сброса пароля необходимо перейти по ссылке: http://localhost:8080/resetPass/%s \n" +
+                "Если это были не вы, пожалуйста, проигнорируйте это письмо.",
+                fromDb.getFirstName(), fromDb.getLastName(), fromDb.getActivationCode());
+        mailSender.send(fromDb.getEmail(), "Password Reset", message);
+    }
+
+    public User validateUserCode(String code) {
+        Optional<User> byActivationCode = userRepo.findByActivationCode(code);
+        if (!byActivationCode.isPresent()) {
+            return null;
+        }
+        User user = byActivationCode.get();
+        user.setActivationCode(null);
+        userRepo.save(user);
+        return user;
+    }
+
+    public boolean updatePassword(String email, String password) {
+        Optional<User> byEmail = userRepo.findByEmail(email);
+        if (!byEmail.isPresent()) {
+            return false;
+        }
+        User user = byEmail.get();
+        user.setPassword(passwordEncoder.encode(password));
+        userRepo.save(user);
+        return true;
+    }
 }

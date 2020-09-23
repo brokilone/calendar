@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <div th:replace="parts/head.html"></div>
+    <title>My Smart Calendar - password reset</title>
+</head>
+<body>
+<header th:replace="parts/header.html :: header"></header>
+<main>
+    <div class="container mt-3">
+        <h3>Введите e-mail, который вы указывали при регистрации</h3>
+        <form method="post">
+            <div class="form-group row">
+                <input required type="email" name="email" id="email" class="form-control col-sm-8" />
+            </div>
+            <button type="submit" class="btn btn-success">Сбросить пароль</button>
+        </form>
+                <p class="text-danger" role="alert" th:text="${message}"></p>
+        <br>
+        <a href="/login">Вернуться на страницу авторизации</a>
+        <a href="/reg">Зарегистрироваться</a>
+    </div>
+</main>
+<footer th:replace="parts/footer.html :: footer"></footer>
+</body>
+</html>
