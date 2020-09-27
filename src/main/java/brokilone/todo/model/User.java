@@ -27,6 +27,16 @@ public class User implements UserDetails {
     private String lastName;
 
     private String activationCode;
+    @Column(name = "themename")
+    private String theme;
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
 
     @Column(length = 60)
     private String password;

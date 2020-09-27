@@ -34,3 +34,9 @@
     <button type="submit" class="btn btn-success mt-3">Сохранить</button>
     <button type="button" class="btn btn-dark mt-3" id="noChangePass">Отмена</button>
 </form>
+
+<button type="button" class="btn btn-success mt-4" id="changeTheme">Тема</button>
+<form th:action="@{/home/changeTheme}" method="post" id="themeChange" enctype="multipart/form-data">
+    <label for="theme">Загрузите фоновое изображение. Рекомендуемый размер: 1024 х 768</label><input type="file" id="theme" name="theme">
+    <button type="submit" class="btn btn-success mt-3">Сохранить</button>
+</form>

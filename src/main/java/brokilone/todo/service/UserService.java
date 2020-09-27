@@ -141,4 +141,9 @@ public class UserService {
         userRepo.save(user);
         return true;
     }
+
+    public void customizeUsersTheme(String email, String themeName) {
+        User byEmail = userRepo.findByEmail(email).orElseThrow(()-> new RuntimeException("user not found!"));
+        byEmail.setTheme(themeName);
+    }
 }

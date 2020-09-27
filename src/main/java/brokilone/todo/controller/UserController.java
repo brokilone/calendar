@@ -42,6 +42,9 @@ public class UserController {
     @Value("${upload.path}")
     private String uploadPath;
 
+    @Value("${theme.path}")
+    private String themePath;
+
     @GetMapping
     public String homePage(Model model, Authentication authentication) {
         addHomeAttributes(model, authentication);
@@ -68,6 +71,7 @@ public class UserController {
         }
         model.addAttribute("taskListDto", taskListDto);
         model.addAttribute("taskDto", new TaskDto());
+        model.addAttribute("theme", user.getTheme());
     }
 
     @PostMapping
@@ -92,7 +96,6 @@ public class UserController {
     public String addTask(Authentication authentication, @Valid Task task,
                            BindingResult result, Model model,
                           @RequestParam("file") MultipartFile file) throws IOException {
-        System.err.println("task: " + task);
         if (result.hasErrors()){
             Collector<FieldError, ?, Map<String, String>> collector = Collectors.toMap(
                     fieldError ->
@@ -121,6 +124,7 @@ public class UserController {
         User user = userService.findUserByEmail(currentPrincipalName).orElseThrow(() ->
                 new RuntimeException("Пользователь не найден"));
         model.addAttribute("user", user);
+
         return "cabinet";
     }
     @PostMapping(value = "/cabinet")
@@ -158,5 +162,17 @@ public class UserController {
         }
         String uuidName = UUID.randomUUID().toString();
         return uuidName + "." + file.getOriginalFilename();
+    }
+
+    @PostMapping(value = "/changeTheme")
+    public String changeTheme(Model model, Authentication authentication,
+                              @RequestParam("theme") MultipartFile file) throws IOException {
+        if (file != null && !file.isEmpty()) {
+            String fullName = getFullName(file);
+            file.transferTo(new File(themePath + "/" + fullName));
+            userService.customizeUsersTheme(authentication.getName(), fullName);
+        }
+
+        return "cabinet";
     }
 }

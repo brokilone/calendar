@@ -3,37 +3,42 @@
     <div th:replace="parts/head.html"></div>
     <title>My Smart Calendar: home page</title>
 </head>
+<style th:inline="text">
+    body {
+    background: url([[@{/imgs/ecdf61e0-f9f2-47ee-9262-0a0ddabf9a98.53666-lajm_zelen_makro_korka.jpg}]]);
+    }
+</style>
 <body>
 <header th:replace="parts/header.html :: header"></header>
 <main>
     <div class="container">
         <div th:replace="parts/taskList.html"></div>
-            <button type="button" class="btn btn-success" id="addButton">Добавить задачу</button>
-            <br><br><br>
-            <form  th:action="@{/home/addTask}" method="post"
-                  th:id="${newTask == null} ? 'addTask'" enctype="multipart/form-data">
-                <div class="form-row"><input class="form-control col-md-4 mt-3"
-                       th:classappend="${shortDescError != null} ? 'is-invalid'"
-                       th:value="${newTask != null} ? ${newTask.shortDesc} : ''"
-                       name="shortDesc" placeholder="Краткое описание"/>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="btn btn-success" id="addButton">Добавить задачу</button>
+        <br><br><br>
+        <form th:action="@{/home/addTask}" method="post"
+              th:id="${newTask == null} ? 'addTask'" enctype="multipart/form-data">
+            <div class="form-row"><input class="form-control col-md-4 mt-3"
+                                         th:classappend="${shortDescError != null} ? 'is-invalid'"
+                                         th:value="${newTask != null} ? ${newTask.shortDesc} : ''"
+                                         name="shortDesc" placeholder="Краткое описание"/>&nbsp;&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback" th:text="${shortDescError}">
                 </div>
-                </div>
-                <div class="form-row"><input class="form-control col-md-4 mt-3"
-                       th:classappend="${fullDescError != null} ? 'is-invalid'"
-                       th:value="${newTask != null} ? ${newTask.fullDesc} : ''"
-                       name="fullDesc" placeholder="Полное описание"/>&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="form-row"><input class="form-control col-md-4 mt-3"
+                                         th:classappend="${fullDescError != null} ? 'is-invalid'"
+                                         th:value="${newTask != null} ? ${newTask.fullDesc} : ''"
+                                         name="fullDesc" placeholder="Полное описание"/>&nbsp;&nbsp;&nbsp;&nbsp;
                 <div class="invalid-feedback" th:text="${fullDescError}"></div>
-                </div>
-                <div class="form-row"><input  class="form-control col-md-4 mt-3"
-                        th:classappend="${execPeriodError != null}? 'is-invalid'" type="date"
-                                              name="execPeriod"
-                        th:value="${newTask != null} ? ${newTask.execPeriod} : ''"/>&nbsp;
-                    <div class="invalid-feedback" th:text="${execPeriodError}"></div>
+            </div>
+            <div class="form-row"><input class="form-control col-md-4 mt-3"
+                                         th:classappend="${execPeriodError != null}? 'is-invalid'" type="date"
+                                         name="execPeriod"
+                                         th:value="${newTask != null} ? ${newTask.execPeriod} : ''"/>&nbsp;
+                <div class="invalid-feedback" th:text="${execPeriodError}"></div>
                 <input class="col-md-4 mt-3" type="file" name="file"/>
-                </div>
-                <button type="submit" class="btn btn-success mt-3">Сохранить</button>
-            </form>
+            </div>
+            <button type="submit" class="btn btn-success mt-3">Сохранить</button>
+        </form>
     </div>
 </main>
 
