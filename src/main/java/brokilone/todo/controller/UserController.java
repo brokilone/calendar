@@ -167,6 +167,7 @@ public class UserController {
     public String changeTheme(Authentication authentication,
                               @RequestParam("theme") MultipartFile file) throws IOException {
         if (file != null && !file.isEmpty()) {
+
             String fullName = getFullName(file);
             file.transferTo(new File(themePath + "/" + fullName));
             userService.customizeUsersTheme(authentication.getName(), fullName);

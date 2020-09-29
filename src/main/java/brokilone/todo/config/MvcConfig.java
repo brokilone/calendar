@@ -13,6 +13,8 @@ public class MvcConfig implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
 
+    @Value("${theme.path}")
+    private String themePath;
     @Bean
     public RestTemplate getRestTemplate(){
         return new RestTemplate();
@@ -27,7 +29,9 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/files/**")
-                .addResourceLocations("file:/" + uploadPath + "/");
+        registry.addResourceHandler("/files/**", "/imgs/**")
+                .addResourceLocations("file:/" + uploadPath + "/")
+                .addResourceLocations("file:/" + themePath + "/");
+
     }
 }
