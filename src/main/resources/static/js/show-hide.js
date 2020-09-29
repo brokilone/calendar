@@ -42,12 +42,33 @@ $(function () {
         $('#userChange').show();
         $(this).hide();
         $('#userDataTable').hide();
+        $('#changePass').hide();
+        $('#changeTheme').hide();
 
     });
     $('#noChange').on('click', function () {
         $('#userChange').hide();
         $('#changeData').show();
         $('#userDataTable').show();
+        $('#changePass').show();
+        $('#changeTheme').show();
+    });
+
+
+    $('#changeTheme').on('click', function () {
+        $('#themeChange').show();
+        $('#changeData').hide();
+        $('#changePass').hide();
+        $(this).hide();
+        $('#userDataTable').hide();
+    });
+
+    $('#noChangeTheme').on('click', function () {
+        $('#themeChange').hide();
+        $('#changeData').show();
+        $('#userDataTable').show();
+        $('#changePass').show();
+        $('#changeTheme').show();
     });
 
 })

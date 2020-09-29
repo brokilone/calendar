@@ -3,12 +3,8 @@
     <div th:replace="parts/head.html"></div>
     <title>My Smart Calendar: home page</title>
 </head>
-<style th:inline="text">
-    body {
-    background: url([[@{/imgs/ecdf61e0-f9f2-47ee-9262-0a0ddabf9a98.53666-lajm_zelen_makro_korka.jpg}]]);
-    }
-</style>
-<body>
+<body th:style="'background-image: url(' + @{/imgs/} + ${user.theme} + ');'">
+<section class="cover">
 <header th:replace="parts/header.html :: header"></header>
 <main>
     <div class="container">
@@ -43,5 +39,6 @@
 </main>
 
 <footer th:replace="parts/footer.html :: footer"></footer>
+    </section>
 </body>
 </html>

@@ -71,7 +71,6 @@ public class UserController {
         }
         model.addAttribute("taskListDto", taskListDto);
         model.addAttribute("taskDto", new TaskDto());
-        model.addAttribute("theme", user.getTheme());
     }
 
     @PostMapping
@@ -165,14 +164,15 @@ public class UserController {
     }
 
     @PostMapping(value = "/changeTheme")
-    public String changeTheme(Model model, Authentication authentication,
+    public String changeTheme(Authentication authentication,
                               @RequestParam("theme") MultipartFile file) throws IOException {
         if (file != null && !file.isEmpty()) {
+
             String fullName = getFullName(file);
             file.transferTo(new File(themePath + "/" + fullName));
             userService.customizeUsersTheme(authentication.getName(), fullName);
         }
 
-        return "cabinet";
+        return "redirect:home";
     }
 }

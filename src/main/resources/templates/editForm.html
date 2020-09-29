@@ -3,7 +3,8 @@
     <div th:replace="parts/head.html"></div>
     <title>My Smart Calendar: edit user data</title>
 </head>
-<body>
+<body th:style="'background-image: url(' + @{/imgs/} + ${user.theme} + ');'">
+<section class="cover">
 <header th:replace="parts/header.html :: header"></header>
 <main>
     <div class="container mt-3">
@@ -23,5 +24,6 @@
     </div>
 </main>
 <footer th:replace="parts/footer.html :: footer"></footer>
+</section>
 </body>
 </html>

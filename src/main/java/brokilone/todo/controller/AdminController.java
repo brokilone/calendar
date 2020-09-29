@@ -21,20 +21,20 @@ public class AdminController {
     private UserService userService;
 
     @GetMapping
-    public String userList(Model model){
+    public String userList(Model model) {
         model.addAttribute("userList", userService.findAll());
         return "admin";
     }
 
     @GetMapping("/{userId}")
-    public String editForm(Model model, @PathVariable ("userId") User user) {
+    public String editForm(Model model, @PathVariable("userId") User user) {
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
         return "editForm";
     }
 
     @PostMapping("/{userId}")
-    public String saveForm(Model model, @PathVariable ("userId") Long id, @ModelAttribute("user") User user) {
+    public String saveForm(Model model, @PathVariable("userId") Long id, @ModelAttribute("user") User user) {
         User userFromDb = userService.findUserById(id).orElseThrow(() -> new RuntimeException("User not found"));
         userFromDb.setEmail(user.getEmail());
         userFromDb.setRole(user.getRole());

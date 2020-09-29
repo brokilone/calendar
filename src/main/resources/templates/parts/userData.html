@@ -1,5 +1,5 @@
 <br><br>
-<h3 xmlns:th="http://www.thymeleaf.org" class="text-muted">Привет, <span th:text="${user.firstName} + ' ' + ${user.lastName}"></span></h3>
+<h3 xmlns:th="http://www.thymeleaf.org" >Привет, <span th:text="${user.firstName} + ' ' + ${user.lastName}"></span></h3>
 <table class="table table-striped" id="userDataTable">
     <tr>
         <th>Имя</th>
@@ -15,7 +15,6 @@
     </tr>
 </table>
 <button type="button" class="btn btn-success mt-4" id="changeData">Изменить данные</button>
-<br><br><br>
 <form class="form-inline" method="post" th:object="${user}" id="userChange">
     <input class="form-control" th:field="*{firstName}" placeholder="*{firstName}"/>&nbsp;&nbsp;&nbsp;&nbsp;
     <input class="form-control" th:field="*{lastName}" placeholder="*{lastName}"/>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -34,9 +33,13 @@
     <button type="submit" class="btn btn-success mt-3">Сохранить</button>
     <button type="button" class="btn btn-dark mt-3" id="noChangePass">Отмена</button>
 </form>
-
+<br>
 <button type="button" class="btn btn-success mt-4" id="changeTheme">Тема</button>
 <form th:action="@{/home/changeTheme}" method="post" id="themeChange" enctype="multipart/form-data">
-    <label for="theme">Загрузите фоновое изображение. Рекомендуемый размер: 1024 х 768</label><input type="file" id="theme" name="theme">
+    <label for="theme">Загрузите фоновое изображение. Рекомендуемый размер: 1024 х 768</label>
+    <br>
+    <input type="file" id="theme" name="theme">
+    <br>
     <button type="submit" class="btn btn-success mt-3">Сохранить</button>
+    <button type="button" class="btn btn-dark mt-3" id="noChangeTheme">Отмена</button>
 </form>
