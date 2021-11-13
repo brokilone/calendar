@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="13.11.2020_populate_user_table.xml" author="Kseniia_Ushakova">
+        <preConditions onFail="MARK_RAN">
+            <tableIsEmpty tableName="user"/>
+        </preConditions>
+
+        <insert tableName="user">
+            <column name="email" value="admin@admin.com"/>
+            <column name="enabled" value="true"/>
+            <column name="first_name" value="Админ"/>
+            <column name="last_name" value="Главный"/>
+            <column name="password" value="$2a$10$w69v/229Q7NSBK.EKOtSxegaQrfs5PP8/j2D.E8SxK7V5292I.Kki"/>
+            <column name="role" value="ROLE_ADMIN"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

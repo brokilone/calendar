@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="13.11.2020_create_todo_database.xml" author="Kseniia_Ushakova">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user">
+            <column name="user_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_user_id"/>
+            </column>
+            <column name="activation_code" type="varchar(255)"/>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="theme_name" type="varchar(255)"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="13.11.2020" author="Kseniia_Ushakova">
+        <preConditions onFail="MARK_RAN">
+            <not>
+            <tableExists tableName="task"/>
+            </not>
+        </preConditions>
+        <createTable tableName="task">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_task_id"/>
+            </column>
+            <column name="exec_period" type="date"/>
+            <column name="file_name" type="varchar(255)"/>
+            <column name="full_desc" type="varchar(1000)"/>
+            <column name="user_id" type="bigint">
+                 <constraints nullable="false" foreignKeyName="fk_user_user_id_task_user_id"  references="user(user_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
